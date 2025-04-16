@@ -1,8 +1,6 @@
 <template>
   <div>
-    <AppHeader />
-    <slot />
-    <AppFooter />
+    
   </div>
 </template>
 
@@ -10,4 +8,6 @@
 
 </script>
 
-<style></style>
+<style>
+
+</style>
