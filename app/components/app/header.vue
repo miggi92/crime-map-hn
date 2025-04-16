@@ -1,7 +1,7 @@
 <template>
   <UHeader>
     <template #title>
-      <Logo class="h-6 w-auto" />
+      <AppLogo class="h-6 w-auto" />
     </template>
 
     <UNavigationMenu :items="items" />
@@ -25,8 +25,6 @@
 
 <script lang="ts" setup>
 import type { NavigationMenuItem } from '@nuxt/ui'
-
-const route = useRoute()
 
 const items = computed<NavigationMenuItem[]>(() => [
   {
