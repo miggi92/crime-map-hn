@@ -1,7 +1,5 @@
 <template>
-  <div>
-
-  </div>
+  <UPageHero title="Crime map Heilbronn" />
 </template>
 
 <script lang="ts" setup>
