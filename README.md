@@ -39,3 +39,18 @@ pnpm preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+### Scripts 
+
+#### Upgrading dependencies
+
+```bash
+npx taze major -w
+pnpm i
+```
+
+#### Release
+
+```bash
+npx changelogen@latest --release --hideAuthorEmail --minor
+```
