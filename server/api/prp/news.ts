@@ -1,5 +1,15 @@
 import { parseString } from 'xml2js';
 
+export interface RssNews {
+  guid: string;
+  title: string;
+  description?: string;
+  content?: string;
+  link?: string;
+  pubDate?: string;
+  author?: string;
+}
+
 export default defineEventHandler(async (event) => {
   const rssUrl = 'https://www.presseportal.de/rss/dienststelle_110971.rss2'
 
@@ -18,7 +28,18 @@ export default defineEventHandler(async (event) => {
       }
       jsonData = result;
     });
-    return jsonData.rss.channel[0];
+
+    const channel = jsonData.rss.channel[0];
+    const items: RssNews[] = channel.item.map((item: any) => ({
+      title: item.title[0],
+      description: item.description ? item.description[0] : '',
+      content: item['content:encoded'] ? item['content:encoded'][0] : '',
+      link: item.link ? item.link[0] : '',
+      pubDate: item.pubDate ? item.pubDate[0] : '',
+      author: item.author ? item.author[0] : '',
+    }));
+
+    return { ...channel, item: items };
   } catch (error) {
     throw createError({
       statusCode: 500,

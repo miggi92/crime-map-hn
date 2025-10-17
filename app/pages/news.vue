@@ -5,7 +5,7 @@
     <UPageBody>
       <UContainer>
         <UBlogPosts>
-          <UBlogPost v-for="(post, index) in posts" :key="index" v-bind="post" />
+          <UBlogPost v-for="(post, index) in posts" :key="index" v-bind="post" :to="post.link" target="_blank" />
         </UBlogPosts>
       </UContainer>
     </UPageBody>
@@ -16,12 +16,7 @@
 
 const news = await useAsyncData('news-posts', () => $fetch('/api/prp/news'))
 const posts = computed(() => {
-  return news.data.value.item.map((item: any) => ({
-    title: item.title[0],
-    description: item.description[0],
-    link: item.link[0],
-    pubDate: item.pubDate[0],
-  }))
+  return news.data.value.item
 })
 
 </script>
