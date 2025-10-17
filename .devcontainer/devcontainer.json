@@ -1,0 +1,38 @@
+{
+	"image": "mcr.microsoft.com/devcontainers/universal:2",
+	"features": {
+		"ghcr.io/devcontainers-extra/features/pnpm:2": {},
+		"ghcr.io/devcontainers/features/node:1": {
+			"version": "20"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"dbaeumer.vscode-eslint",
+				"antfu.iconify",
+				"bradlc.vscode-tailwindcss",
+				"Nuxtr.nuxt-vscode-extentions",
+				"Vue.volar",
+				"vivaxy.vscode-conventional-commits"
+			],
+			"settings": {
+				"editor.formatOnSave": true,
+				"editor.defaultFormatter": "dbaeumer.vscode-eslint",
+				"[vue]": {
+					"editor.defaultFormatter": "Vue.volar"
+				},
+				"eslint.validate": ["javascript", "typescript", "vue"],
+				"vue.server.hybridMode": true
+			}
+		}
+	},
+	"postCreateCommand": "pnpm install",
+	"forwardPorts": [3000],
+	"portsAttributes": {
+		"3000": {
+			"label": "Nuxt Dev Server",
+			"onAutoForward": "notify"
+		}
+	}
+}
