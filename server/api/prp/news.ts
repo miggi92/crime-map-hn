@@ -6,7 +6,7 @@ export interface RssNews {
   description?: string;
   content?: string;
   link?: string;
-  pubDate?: string;
+  date?: string;
   author?: string;
 }
 
@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
       description: item.description ? item.description[0] : '',
       content: item['content:encoded'] ? item['content:encoded'][0] : '',
       link: item.link ? item.link[0] : '',
-      pubDate: item.pubDate ? item.pubDate[0] : '',
+      date: item.pubDate ? item.pubDate[0] : '',
       author: item.author ? item.author[0] : '',
     }));
 
