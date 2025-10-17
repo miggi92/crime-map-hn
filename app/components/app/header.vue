@@ -1,5 +1,5 @@
 <template>
-  <UHeader>
+  <UHeader mode="slideover">
     <template #title>
       <AppLogo class="h-6 w-auto" />
     </template>
@@ -14,6 +14,10 @@
           icon="i-simple-icons-github" aria-label="GitHub" />
       </UTooltip>
     </template>
+
+    <template #body>
+      <UNavigationMenu :items="items" orientation="vertical" class="-mx-2.5" />
+    </template>
   </UHeader>
 </template>
 
@@ -25,6 +29,10 @@ const items = computed<NavigationMenuItem[]>(() => [
     label: 'Map',
     to: '/map',
     icon: 'i-lucide:map',
+  }, {
+    label: 'News',
+    to: '/news',
+    icon: 'i-lucide:newspaper',
   }])
 
 </script>

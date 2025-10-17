@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
       }
       jsonData = result;
     });
-    return jsonData.rss.channel;
+    return jsonData.rss.channel[0];
   } catch (error) {
     throw createError({
       statusCode: 500,
