@@ -7,7 +7,14 @@ export interface RssNews {
   content?: string;
   link?: string;
   date?: string;
-  author?: string;
+  authors?: [{
+    name: string;
+    description?: string;
+    avatar?: {
+      src: string;
+      alt: string;
+    }
+  }];
 }
 
 export default defineEventHandler(async (event) => {
@@ -36,7 +43,14 @@ export default defineEventHandler(async (event) => {
       content: item['content:encoded'] ? item['content:encoded'][0] : '',
       link: item.link ? item.link[0] : '',
       date: item.pubDate ? item.pubDate[0] : '',
-      author: item.author ? item.author[0] : '',
+      authors: [{
+        name: channel.category[0] || 'Presseportal.de',
+        description: item.author ? item.author[0] : '',
+        avatar: {
+          src: 'https://www.presseportal.de/favicon.ico',
+          alt: item.author ? item.author[0] : ''
+        }
+      }]
     }));
 
     return { ...channel, item: items };
