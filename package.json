@@ -23,7 +23,7 @@
     "vue-router": "^4.6.3",
     "xml2js": "^0.6.2"
   },
-  "packageManager": "pnpm@10.28.0",
+  "packageManager": "pnpm@10.28.1",
   "devDependencies": {
     "@types/xml2js": "^0.4.14",
     "typescript": "^5.9.3"
