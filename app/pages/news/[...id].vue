@@ -99,24 +99,7 @@
 </template>
 
 <script lang="ts" setup>
-interface NewsItem {
-  guid: string
-  title: string
-  description?: string
-  content?: string
-  link?: string
-  date?: string
-  category?: string
-  source?: {
-    name: string
-    url?: string
-  }
-  articleCategories?: {
-    places: string[]
-    topics: string[]
-    keywords: string[]
-  }
-}
+import type { NewsItem } from '~/types/news'
 
 const route = useRoute()
 const routeId = computed(() => {
