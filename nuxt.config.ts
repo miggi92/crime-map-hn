@@ -7,5 +7,13 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
-  modules: ['@nuxt/eslint', '@nuxt/ui', '@nuxt/content'],
+  modules: [
+    '@nuxt/eslint',
+    '@nuxt/ui',
+    '@nuxt/content',
+    '@nuxtjs/leaflet',
+  ],
+  leaflet: {
+    markerCluster: true
+  }
 })
