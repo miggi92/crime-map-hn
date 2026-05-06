@@ -27,9 +27,10 @@ export default defineEventHandler(async (event) => {
     let jsonData: string = '';
     parseString(responseXML as string, (err, result) => {
       if (err) {
+        console.error(err);
         throw createError({
           statusCode: 500,
-          data: err,
+          data: undefined,
           statusMessage: 'Error parsing RSS feed',
         });
       }
@@ -55,9 +56,10 @@ export default defineEventHandler(async (event) => {
 
     return { ...channel, item: items };
   } catch (error) {
+    console.error(error);
     throw createError({
       statusCode: 500,
-      data: error,
+      data: undefined,
       statusMessage: 'Error fetching RSS feed',
     })
   }
