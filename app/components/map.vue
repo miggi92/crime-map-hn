@@ -9,7 +9,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+
+export type MapLocation = {
+  name: string
+  lat: number
+  lng: number
+  popup?: string
+}
+
+const props = withDefaults(defineProps<{
+  locations?: MapLocation[]
+}>(), {
+  locations: () => [],
+})
 
 type LeafletMarker = {
   bindPopup: (content: string) => LeafletMarker
@@ -17,6 +30,7 @@ type LeafletMarker = {
 
 type LeafletMarkerCluster = {
   addLayer: (layer: LeafletMarker) => void
+  clearLayers: () => void
 }
 
 type LeafletMap = {
@@ -28,48 +42,47 @@ type LeafletApi = {
   markerClusterGroup?: (options?: object) => LeafletMarkerCluster
 }
 
-type Location = {
-  name: string
-  lat: number
-  lng: number
-  popup?: string
-}
-
 const zoom = ref(10)
+const leaflet = ref<LeafletApi | null>(null)
+const markerCluster = ref<LeafletMarkerCluster | null>(null)
 
-const locations: Location[] = [
-  { name: 'Heilbronn', lat: 49.1427, lng: 9.2222, popup: '<h1>This is a test</h1>' },
-  { name: 'Weinsberg', lat: 49.1518, lng: 9.2857 },
-  { name: 'Weinsberg1', lat: 49.1518, lng: 9.2857 },
-  { name: 'Weinsberg2', lat: 49.1518, lng: 9.2857 },
-  { name: 'Weinsberg3', lat: 49.1518, lng: 9.2857 },
-  { name: 'Weinsberg4', lat: 49.1518, lng: 9.2857 },
-]
+function syncMarkers() {
+  if (!leaflet.value || !markerCluster.value) {
+    return
+  }
+
+  markerCluster.value.clearLayers()
+
+  for (const location of props.locations) {
+    const marker = leaflet.value.marker([location.lat, location.lng], { title: location.name })
+
+    if (location.popup) {
+      marker.bindPopup(location.popup)
+    }
+
+    markerCluster.value.addLayer(marker)
+  }
+}
 
 const onMapReady = async (leafletObject: LeafletMap) => {
   // @ts-expect-error leaflet.markercluster exposes no usable module types here.
   await import('leaflet.markercluster')
 
   const L = window.L as LeafletApi
+  leaflet.value = L
 
-  const markerCluster = L.markerClusterGroup?.()
+  const cluster = L.markerClusterGroup?.()
 
-  if (!markerCluster) {
+  if (!cluster) {
     throw new Error('leaflet.markercluster konnte nicht initialisiert werden.')
   }
 
-  for (const location of locations) {
-    const marker = L.marker([location.lat, location.lng], { title: location.name })
-
-    if (location.popup) {
-      marker.bindPopup(location.popup)
-    }
-
-    markerCluster.addLayer(marker)
-  }
-
-  leafletObject.addLayer(markerCluster)
+  markerCluster.value = cluster
+  leafletObject.addLayer(cluster)
+  syncMarkers()
 }
+
+watch(() => props.locations, syncMarkers, { deep: true })
 </script>
 
 <style></style>
