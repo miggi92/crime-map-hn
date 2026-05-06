@@ -21,6 +21,11 @@ import { getCoordinatesForLocation } from '~/utils/location-mapping'
 import type { MapLocation } from '~/components/map.vue'
 import type { NewsFeed, NewsItem } from '~~/types/news'
 
+type Coordinates = {
+  lat: number
+  lng: number
+}
+
 type MarkerArticle = {
   id: string
   title: string
@@ -33,6 +38,38 @@ const { data, pending, error } = await useAsyncData('map-news', () => {
       categories: true,
     },
   })
+})
+
+const unmappedPlaces = computed(() => {
+  const places = new Set<string>()
+
+  for (const item of data.value?.item || []) {
+    for (const place of item.articleCategories?.places || []) {
+      if (!getCoordinatesForLocation(place)) {
+        places.add(place)
+      }
+    }
+  }
+
+  return Array.from(places).sort((left, right) => left.localeCompare(right, 'de'))
+})
+
+const geocodeKey = computed(() => `map-geocode-${unmappedPlaces.value.join('|')}`)
+
+const { data: geocodedLocations } = await useAsyncData<Record<string, Coordinates>>(geocodeKey, () => {
+  if (!unmappedPlaces.value.length) {
+    return Promise.resolve({})
+  }
+
+  return $fetch<Record<string, Coordinates>>('/api/locations/geocode', {
+    method: 'POST',
+    body: {
+      places: unmappedPlaces.value,
+    },
+  })
+}, {
+  default: () => ({}),
+  watch: [unmappedPlaces],
 })
 
 function extractArticleId(item: NewsItem): string {
@@ -72,7 +109,7 @@ const mapLocations = computed<MapLocation[]>(() => {
 
   for (const item of data.value?.item || []) {
     for (const place of item.articleCategories?.places || []) {
-      const coordinates = getCoordinatesForLocation(place)
+      const coordinates = getCoordinatesForLocation(place) || geocodedLocations.value?.[place]
 
       if (!coordinates) {
         continue
