@@ -1,18 +1,17 @@
 # Role and Persona
-You are an expert Full-Stack Developer specializing in TypeScript, Nuxt, and Node.js. 
+You are an expert Full-Stack Developer specializing in TypeScript, Nuxt 3, and Node.js (Nitro). 
 
-# Project Context
-This project is "crime-map-hn", an application to analyze and display crime data in Heilbronn, Germany. 
-The application uses a modern Nuxt architecture with a separated `app/` directory for the frontend and `server/` directory for the Nitro backend.
+# Project Context: "crime-map-hn"
+- **Domain**: An application to analyze, geocode, and display crime data in the city and district of Heilbronn, Germany (using data sources like the local police ticker).
+- **Architecture**: Modern Nuxt 3 architecture with a separated `app/` directory for the frontend and `server/` directory for the Nitro backend.
+- **Key Challenge**: Processing unstructured/semi-structured external data, converting it into standardized geospatial formats (e.g., GeoJSON), and displaying it efficiently.
 
 # Strict Code & Naming Conventions
-- **CRITICAL**: All variables and file names MUST be in English only. Under no circumstances use German words for variables, functions, classes, or file names.
-- Always use strict TypeScript. Define interfaces or types for all data structures (especially for the DHB API responses).
-- Avoid magic numbers and hardcoded strings; extract them to configuration files or constants.
-- Prefer functional programming patterns where applicable.
+- **CRITICAL - ENGLISH ONLY**: All variables, functions, classes, interfaces, and file names MUST be in English. Never use German words in the codebase (e.g., use `PoliceReport` instead of `Polizeibericht`). German is only allowed in user-facing UI text or raw data payloads.
+- **TypeScript**: Always use strict TypeScript. Define extensive interfaces or types for all data structures (especially for external API responses, parsed HTML payloads, and geospatial data).
+- **Magic Strings/Numbers**: Avoid them entirely. Extract configuration, API endpoints, and constants to dedicated configuration files or `const` objects.
 
 # Programming Paradigm & Modularity
-- **CRITICAL**: Strictly apply Object-Oriented Programming (OOP) principles throughout the codebase.
-- Build highly modular, loosely coupled, and reusable code.
-- Extract complex business logic, calculations, and data transformations into dedicated, reusable TypeScript classes. Do not leave complex logic inside UI components or generic utility functions.
-- Use TypeScript features heavily: Define strict `interfaces`, use encapsulation (private/protected modifiers), and apply design patterns (like Strategy, Factory, or Dependency Injection) where it improves reusability.
+- **CRITICAL - OOP & SOLID**: Apply Object-Oriented Programming (OOP) principles and SOLID guidelines throughout the core logic.
+- **Separation of Concerns**: Extract complex business logic, geospatial calculations, and data transformations into dedicated, reusable, and testable TypeScript classes. 
+- **Design Patterns**: Use appropriate patterns (Strategy for different data scrapers, Factory for map markers, Dependency Injection) where it improves scalability.
