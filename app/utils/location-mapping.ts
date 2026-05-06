@@ -19,6 +19,12 @@ export const locationCoordinateMap: Record<string, FixedCoordinates> = {
     Ilsfeld: { lat: 49.0566, lng: 9.2455 },
     Möckmühl: { lat: 49.3245, lng: 9.3585 },
     'Hardthausen am Kocher': { lat: 49.2476, lng: 9.3904 },
+    'Mosbach': { lat: 49.3528, lng: 9.1506 },
+    'Hardheim': { lat: 49.6106, lng: 9.4739 },
+    'Walldürn': { lat: 49.5578, lng: 9.4505 },
+    'Neudenau': { lat: 49.2548, lng: 9.4907 },
+    'Oberstenfeld': { lat: 49.0795, lng: 9.3166 },
+    'Neckarwestheim': { lat: 49.0982, lng: 9.2041 },
 }
 
 function normalizeLocationName(value: string): string {

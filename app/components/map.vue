@@ -42,7 +42,7 @@ type LeafletApi = {
   markerClusterGroup?: (options?: object) => LeafletMarkerCluster
 }
 
-const zoom = ref(10)
+const zoom = ref(9)
 const leaflet = ref<LeafletApi | null>(null)
 const markerCluster = ref<LeafletMarkerCluster | null>(null)
 
