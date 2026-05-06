@@ -24,6 +24,8 @@
 <script lang="ts" setup>
 import type { NavigationMenuItem } from '@nuxt/ui'
 
+const route = useRoute()
+
 const items = computed<NavigationMenuItem[]>(() => [
   {
     label: 'Map',
@@ -33,6 +35,7 @@ const items = computed<NavigationMenuItem[]>(() => [
     label: 'News',
     to: '/news',
     icon: 'i-lucide:newspaper',
+    active: route.path.startsWith('/news'),
   }])
 
 </script>
