@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/content',
     '@nuxtjs/leaflet',
+    '@nuxthub/core'
   ],
   leaflet: {
     markerCluster: true
