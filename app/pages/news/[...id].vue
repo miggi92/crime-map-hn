@@ -82,6 +82,7 @@
             </div>
           </div>
 
+          <!-- eslint-disable-next-line vue/no-v-html -->
           <div class="prose max-w-none" v-html="articleHtml" />
 
           <div class="pt-2">

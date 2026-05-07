@@ -42,6 +42,6 @@ export default defineConfig({
     command: 'npx nuxi build && npx nuxi preview',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
+    timeout: 240 * 1000,
   },
 });

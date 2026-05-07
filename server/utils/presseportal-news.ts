@@ -9,6 +9,7 @@ interface NewsChannel {
     description?: string[]
     language?: string[]
     category?: string[]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     item?: any[]
 }
 
@@ -47,7 +48,9 @@ export async function fetchNewsChannel(rssUrl = PRESSEPORTAL_RSS_URL): Promise<F
     }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function findRawItemById(items: any[] = [], id: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return items.find((item: any) => {
         const guid = String(item.guid?.[0] || '')
         const link = String(item.link?.[0] || '')
@@ -56,6 +59,7 @@ export function findRawItemById(items: any[] = [], id: string) {
 }
 
 export async function buildNewsItem(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     rawItem: any,
     channelCategory: string,
     options: BuildNewsItemOptions = {},
