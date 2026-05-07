@@ -15,7 +15,7 @@ v-else-if="!pending && !mapLocations.length" color="warning" variant="soft" titl
           description="Fuer die aktuellen News wurden noch keine passenden Koordinaten im Mapping gefunden." />
       </div>
 
-      <div class="flex-grow w-full h-full relative z-0">
+      <div class="flex-grow w-full h-[calc(100vh-var(--ui-header-height,64px)-150px)] relative z-0">
         <ClientOnly>
           <Map :locations="mapLocations" />
         </ClientOnly>
