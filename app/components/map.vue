@@ -1,6 +1,6 @@
 <template>
   <div class="w-auto h-[600px]">
-    <LMap :zoom="zoom" :max-zoom="15" :center="[49.1417, 9.2222]" :use-global-leaflet="false" @ready="onMapReady">
+    <LMap :zoom="zoom" :max-zoom="15" :center="[49.1417, 9.2222]" :use-global-leaflet="true" @ready="onMapReady">
       <LTileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="&amp;copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
         layer-type="base" name="OpenStreetMap" />
@@ -47,6 +47,15 @@ const zoom = ref(9)
 const leaflet = ref<LeafletApi | null>(null)
 const markerCluster = ref<LeafletMarkerCluster | null>(null)
 
+if (import.meta.client) {
+  const leafletModule = await import('leaflet')
+  const L = ((leafletModule as unknown as { default?: LeafletApi }).default || leafletModule) as unknown as LeafletApi
+    ; (window as Window & { L?: LeafletApi }).L = L
+
+  // @ts-expect-error leaflet.markercluster exposes no usable module types here.
+  await import('leaflet.markercluster')
+}
+
 function syncMarkers() {
   if (!leaflet.value || !markerCluster.value) {
     return
@@ -65,18 +74,14 @@ function syncMarkers() {
   }
 }
 
-const onMapReady = async (leafletObject: LeafletMap) => {
-  const L = await import('leaflet')
+const onMapReady = (leafletObject: LeafletMap) => {
+  const L = (window as Window & { L?: LeafletApi }).L
 
-  if (typeof window !== 'undefined') {
-    // markercluster patches the global L in browser environments.
-    ;(window as Window & { L?: typeof L }).L = L
+  if (!L) {
+    throw new Error('Leaflet konnte nicht initialisiert werden.')
   }
 
-  // @ts-expect-error leaflet.markercluster exposes no usable module types here.
-  await import('leaflet.markercluster')
-
-  leaflet.value = L as unknown as LeafletApi
+  leaflet.value = L
 
   const cluster = L.markerClusterGroup?.()
 
