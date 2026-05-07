@@ -26,15 +26,18 @@ importers:
       '@nuxthub/core':
         specifier: 0.10.7
         version: 0.10.7(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(db0@0.3.4(better-sqlite3@12.9.0))(ioredis@5.10.1)(magicast@0.5.2)(typescript@6.0.3)
-      '@nuxtjs/leaflet':
-        specifier: 1.3.2
-        version: 1.3.2(typescript@6.0.3)
+      '@vue-leaflet/vue-leaflet':
+        specifier: ^0.10.1
+        version: 0.10.1(leaflet@1.9.4)(typescript@6.0.3)
       better-sqlite3:
         specifier: ^12.9.0
         version: 12.9.0
       eslint:
         specifier: ^10.3.0
         version: 10.3.0(jiti@2.6.1)
+      leaflet:
+        specifier: ^1.9.4
+        version: 1.9.4
       leaflet.markercluster:
         specifier: ^1.5.3
         version: 1.5.3(leaflet@1.9.4)
@@ -921,9 +924,6 @@ packages:
 
   '@nuxtjs/color-mode@3.5.2':
     resolution: {integrity: sha512-cC6RfgZh3guHBMLLjrBB2Uti5eUoGM9KyauOaYS9ETmxNWBMTvpgjvSiSJp1OFljIXPIqVTJ3xtJpSNZiO3ZaA==}
-
-  '@nuxtjs/leaflet@1.3.2':
-    resolution: {integrity: sha512-DaR/s7yS7HPIaiCTvs/ZSXzwtX3ZJciYQVxVrqvh5usLzZFqr/dWXPhsdkExpJIVhZ96VWkQb9aeZ+J1W90iqw==}
 
   '@nuxtjs/mdc@0.21.1':
     resolution: {integrity: sha512-DIeUD7IahWVUSoZExysxH9dX51Io6hcQYgGJODq0cMTGqaoDD32lRfHBJxYUmy+sUCV1+1hfa2ixspgJgEd2GA==}
@@ -2258,17 +2258,11 @@ packages:
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
-  '@types/geojson@7946.0.16':
-    resolution: {integrity: sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==}
-
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
-
-  '@types/leaflet@1.9.21':
-    resolution: {integrity: sha512-TbAd9DaPGSnzp6QvtYngntMZgcRk+igFELwR2N99XZn7RXUdKgsXMR+28bUO0rPsWp8MIu/f47luLIQuSLYv/w==}
 
   '@types/mdast@4.0.4':
     resolution: {integrity: sha512-kGaNbPh1k7AFzgpud/gMdvIm5xuECykRR+JnWKQno9TAXVa6WIVCGTPvYGekIDL4uwCZQSYbUxNBSb1aUo79oA==}
@@ -7581,14 +7575,6 @@ snapshots:
     transitivePeerDependencies:
       - magicast
 
-  '@nuxtjs/leaflet@1.3.2(typescript@6.0.3)':
-    dependencies:
-      '@types/leaflet': 1.9.21
-      '@vue-leaflet/vue-leaflet': 0.10.1(@types/leaflet@1.9.21)(leaflet@1.9.4)(typescript@6.0.3)
-      leaflet: 1.9.4
-    transitivePeerDependencies:
-      - typescript
-
   '@nuxtjs/mdc@0.21.1(magicast@0.5.2)':
     dependencies:
       '@nuxt/kit': 4.4.4(magicast@0.5.2)
@@ -8574,17 +8560,11 @@ snapshots:
 
   '@types/estree@1.0.8': {}
 
-  '@types/geojson@7946.0.16': {}
-
   '@types/hast@3.0.4':
     dependencies:
       '@types/unist': 3.0.3
 
   '@types/json-schema@7.0.15': {}
-
-  '@types/leaflet@1.9.21':
-    dependencies:
-      '@types/geojson': 7946.0.16
 
   '@types/mdast@4.0.4':
     dependencies:
@@ -8823,12 +8803,10 @@ snapshots:
       path-browserify: 1.0.1
       vscode-uri: 3.1.0
 
-  '@vue-leaflet/vue-leaflet@0.10.1(@types/leaflet@1.9.21)(leaflet@1.9.4)(typescript@6.0.3)':
+  '@vue-leaflet/vue-leaflet@0.10.1(leaflet@1.9.4)(typescript@6.0.3)':
     dependencies:
       leaflet: 1.9.4
       vue: 3.5.33(typescript@6.0.3)
-    optionalDependencies:
-      '@types/leaflet': 1.9.21
     transitivePeerDependencies:
       - typescript
 

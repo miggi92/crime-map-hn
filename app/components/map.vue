@@ -1,6 +1,6 @@
 <template>
   <div class="w-auto h-[600px]">
-    <LMap :zoom="zoom" :max-zoom="15" :center="[49.1417, 9.2222]" :use-global-leaflet="true" @ready="onMapReady">
+    <LMap :zoom="zoom" :max-zoom="15" :center="[49.1417, 9.2222]" :use-global-leaflet="false" @ready="onMapReady">
       <LTileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="&amp;copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
         layer-type="base" name="OpenStreetMap" />
@@ -10,6 +10,7 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
+import { LMap, LTileLayer } from '@vue-leaflet/vue-leaflet'
 
 export type MapLocation = {
   name: string
@@ -65,11 +66,17 @@ function syncMarkers() {
 }
 
 const onMapReady = async (leafletObject: LeafletMap) => {
+  const L = await import('leaflet')
+
+  if (typeof window !== 'undefined') {
+    // markercluster patches the global L in browser environments.
+    ;(window as Window & { L?: typeof L }).L = L
+  }
+
   // @ts-expect-error leaflet.markercluster exposes no usable module types here.
   await import('leaflet.markercluster')
 
-  const L = window.L as LeafletApi
-  leaflet.value = L
+  leaflet.value = L as unknown as LeafletApi
 
   const cluster = L.markerClusterGroup?.()
 

@@ -2,7 +2,12 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  css: ['~/assets/css/main.css'],
+  css: [
+    '~/assets/css/main.css',
+    'leaflet/dist/leaflet.css',
+    'leaflet.markercluster/dist/MarkerCluster.css',
+    'leaflet.markercluster/dist/MarkerCluster.Default.css'
+  ],
   future: {
     compatibilityVersion: 4,
   },
@@ -11,10 +16,6 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/ui',
     '@nuxt/content',
-    '@nuxtjs/leaflet',
     '@nuxthub/core'
-  ],
-  leaflet: {
-    markerCluster: true
-  }
+  ]
 })
