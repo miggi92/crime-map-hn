@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import { getCoordinatesForLocation } from '~/utils/location-mapping'
-import type { MapLocation } from '~/components/map.vue'
+import type { MapLocation } from '~~/types/map-location'
 import type { NewsFeed, NewsItem } from '~~/types/news'
 
 type Coordinates = {
