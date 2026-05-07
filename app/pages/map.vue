@@ -1,6 +1,6 @@
 <template>
   <UPage>
-    <UPageHeader title="Crime map Heilbronn" />
+    <UPageHeader title="Crime map Heilbronn & Umgebung" />
     <UPageBody>
       <UAlert v-if="error" color="error" variant="soft" title="Fehler beim Laden der Karte" :description="error.message"
         class="mb-6" />
