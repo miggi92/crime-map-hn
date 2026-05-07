@@ -1,7 +1,7 @@
 <template>
-  <span class="inline-flex items-center gap-2">
-    <UIcon name="i-lucide:siren" />
-    <span>Crime map Heilbronn</span>
+  <span class="inline-flex items-center gap-2 text-primary">
+    <UIcon name="i-lucide:shield-alert" class="w-6 h-6" />
+    <span class="font-bold tracking-tight text-foreground">Crime map Heilbronn</span>
   </span>
 </template>
 

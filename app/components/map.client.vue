@@ -1,9 +1,10 @@
 <template>
-    <div class="w-auto h-[600px]">
+    <div class="w-full h-full min-h-[400px]">
         <LMap :zoom="zoom" :max-zoom="15" :center="[49.1417, 9.2222]" :use-global-leaflet="true" @ready="onMapReady">
-            <LTileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution="&amp;copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
-                layer-type="base" name="OpenStreetMap" />
+            <LTileLayer
+url="https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png"
+                attribution="&amp;copy; <a href=&quot;https://www.openstreetmap.org/copyright&quot;>OpenStreetMap</a> contributors &amp;copy; <a href=&quot;https://carto.com/attributions&quot;>CARTO</a>"
+                layer-type="base" name="Dark Map" />
         </LMap>
     </div>
 </template>
@@ -25,6 +26,7 @@ type LeafletMarker = {
 
 type LeafletMarkerCluster = {
     addLayer: (layer: LeafletMarker) => void
+    addLayers: (layers: LeafletMarker[]) => void
     clearLayers: () => void
 }
 
@@ -55,15 +57,17 @@ function syncMarkers() {
 
     markerCluster.value.clearLayers()
 
-    for (const location of props.locations) {
-        const marker = leaflet.value.marker([location.lat, location.lng], { title: location.name })
+    const markers = props.locations.map(location => {
+        const marker = leaflet.value!.marker([location.lat, location.lng], { title: location.name })
 
         if (location.popup) {
             marker.bindPopup(location.popup)
         }
 
-        markerCluster.value.addLayer(marker)
-    }
+        return marker
+    })
+
+    markerCluster.value.addLayers(markers)
 }
 
 const onMapReady = (leafletObject: LeafletMap) => {
@@ -75,7 +79,12 @@ const onMapReady = (leafletObject: LeafletMap) => {
 
     leaflet.value = mapLeaflet
 
-    const cluster = mapLeaflet.markerClusterGroup?.()
+    const cluster = mapLeaflet.markerClusterGroup?.({
+        chunkedLoading: true,
+        disableClusteringAtZoom: 14,
+        maxClusterRadius: 50,
+        spiderfyOnMaxZoom: true,
+    })
 
     if (!cluster) {
         throw new Error('leaflet.markercluster konnte nicht initialisiert werden.')
