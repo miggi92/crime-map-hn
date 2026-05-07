@@ -1,4 +1,4 @@
-import { parseStringPromise } from 'xml2js'
+import { XMLParser } from 'fast-xml-parser'
 import type { ArticleCategories, NewsItem } from '../../types/news'
 
 export const PRESSEPORTAL_RSS_URL = 'https://www.presseportal.de/rss/dienststelle_110971.rss2'
@@ -24,9 +24,16 @@ interface BuildNewsItemOptions {
 
 export async function fetchNewsChannel(rssUrl = PRESSEPORTAL_RSS_URL): Promise<FetchChannelResult> {
     const responseXML = await $fetch<string>(rssUrl, { responseType: 'text' })
-    const jsonData = await parseStringPromise(responseXML)
 
-    const channel = jsonData?.rss?.channel?.[0] as NewsChannel | undefined
+    const parser = new XMLParser({
+        ignoreAttributes: false,
+        attributeNamePrefix: "$",
+        textNodeName: "_",
+        isArray: (name) => ["title", "link", "description", "language", "category", "item", "guid", "content:encoded", "source", "pubDate", "author"].includes(name)
+    })
+    const jsonData = parser.parse(responseXML)
+
+    const channel = jsonData?.rss?.channel as NewsChannel | undefined
     if (!channel) {
         throw createError({
             statusCode: 500,
