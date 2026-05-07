@@ -1,6 +1,7 @@
 <template>
   <UPage>
-    <UPageHero title="Crime map Heilbronn"
+    <UPageHero
+title="Crime map Heilbronn"
       description="Verfolge aktuelle Polizeimeldungen auf einer interaktiven Karte, erkenne lokale Schwerpunkte und springe direkt in die zugehörigen Details."
       :links="heroLinks">
       <template #headline>
@@ -11,7 +12,8 @@
     </UPageHero>
 
     <UPageBody>
-      <UPageHero title="Warum diese Plattform?" description="Die wichtigsten Funktionen auf einen Blick."
+      <UPageHero
+title="Warum diese Plattform?" description="Die wichtigsten Funktionen auf einen Blick."
         orientation="horizontal" :ui="{ root: 'py-8 sm:py-10' }" />
 
       <UContainer>
@@ -32,7 +34,8 @@
         </div>
       </UContainer>
 
-      <UPageHero title="So nutzt du die Plattform"
+      <UPageHero
+title="So nutzt du die Plattform"
         description="In wenigen Schritten vom Überblick zur konkreten Meldung." orientation="horizontal"
         :ui="{ root: 'pt-12 pb-8 sm:pt-14 sm:pb-10' }" />
 

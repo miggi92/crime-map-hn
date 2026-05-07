@@ -1,17 +1,25 @@
 <template>
-  <UPage>
-    <UPageHeader title="Crime map Heilbronn & Umgebung" />
-    <UPageBody>
-      <UAlert v-if="error" color="error" variant="soft" title="Fehler beim Laden der Karte" :description="error.message"
-        class="mb-6" />
+  <UPage class="h-[calc(100vh-var(--ui-header-height,64px))] flex flex-col">
+    <UPageHeader title="Crime map Heilbronn & Umgebung" class="flex-shrink-0">
+      <template #links>
+        <USelectMenu
+v-model="selectedTopics" :items="availableTopics" multiple placeholder="Kategorien filtern"
+          class="w-full sm:w-64" />
+      </template>
+    </UPageHeader>
+    <UPageBody class="flex-grow p-0 sm:p-0 flex flex-col overflow-hidden">
+      <div class="px-4 py-2 sm:px-6 flex-shrink-0">
+        <UAlert v-if="error" color="error" variant="soft" title="Fehler beim Laden der Karte" :description="error.message" />
+        <UAlert
+v-else-if="!pending && !mapLocations.length" color="warning" variant="soft" title="Keine Orte gemappt"
+          description="Fuer die aktuellen News wurden noch keine passenden Koordinaten im Mapping gefunden." />
+      </div>
 
-      <UAlert v-else-if="!pending && !mapLocations.length" color="warning" variant="soft" title="Keine Orte gemappt"
-        description="Fuer die aktuellen News wurden noch keine passenden Koordinaten im Mapping gefunden."
-        class="mb-6" />
-
-      <ClientOnly>
-        <Map :locations="mapLocations" />
-      </ClientOnly>
+      <div class="flex-grow w-full h-full relative z-0">
+        <ClientOnly>
+          <Map :locations="mapLocations" />
+        </ClientOnly>
+      </div>
     </UPageBody>
   </UPage>
 </template>
@@ -40,10 +48,33 @@ const { data, pending, error } = await useAsyncData('map-news', () => {
   })
 })
 
+const availableTopics = computed(() => {
+  const topics = new Set<string>()
+  for (const item of data.value?.item || []) {
+    for (const topic of item.articleCategories?.topics || []) {
+      topics.add(topic)
+    }
+  }
+  return Array.from(topics).sort((a, b) => a.localeCompare(b, 'de'))
+})
+
+const selectedTopics = ref<string[]>([])
+
+const filteredItems = computed(() => {
+  const items = data.value?.item || []
+  if (!selectedTopics.value.length) {
+    return items
+  }
+  return items.filter(item => {
+    const itemTopics = item.articleCategories?.topics || []
+    return selectedTopics.value.some(topic => itemTopics.includes(topic))
+  })
+})
+
 const unmappedPlaces = computed(() => {
   const places = new Set<string>()
 
-  for (const item of data.value?.item || []) {
+  for (const item of filteredItems.value) {
     for (const place of item.articleCategories?.places || []) {
       if (!getCoordinatesForLocation(place)) {
         places.add(place)
@@ -107,7 +138,7 @@ function buildPopupHtml(place: string, articles: MarkerArticle[]): string {
 const mapLocations = computed<MapLocation[]>(() => {
   const groupedLocations = new Map<string, MapLocation & { articles: MarkerArticle[] }>()
 
-  for (const item of data.value?.item || []) {
+  for (const item of filteredItems.value) {
     for (const place of item.articleCategories?.places || []) {
       const coordinates = getCoordinatesForLocation(place) || geocodedLocations.value?.[place]
 
