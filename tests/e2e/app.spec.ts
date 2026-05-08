@@ -61,7 +61,8 @@ test.describe('App functionality', () => {
 
     // Since map data rendering goes through layers/clusters, we check for marker cluster
     // or standard leaflet marker classes that indicate our markers have populated.
-    const marker = page.locator('.leaflet-marker-icon, .marker-cluster').first();
+    // The selector matches .marker-cluster-small .marker-cluster-medium .marker-cluster-large etc
+    const marker = page.locator('.leaflet-marker-icon, [class*="marker-cluster-"]').first();
     await expect(marker).toBeVisible({ timeout: 15000 });
   });
 });
