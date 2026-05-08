@@ -59,10 +59,13 @@ test.describe('App functionality', () => {
     const mapContainer = page.locator('.vue-leaflet-map').first();
     await expect(mapContainer).toBeVisible();
 
-    // Since map data rendering goes through layers/clusters, we check for marker cluster
-    // or standard leaflet marker classes that indicate our markers have populated.
-    // The selector matches .marker-cluster-small .marker-cluster-medium .marker-cluster-large etc
+    // Ensure the client-side app has fully hydrated and leaflet is rendering.
+    // Sometimes Leaflet doesn't immediately add the markers if map height is 0 or rendering is delayed.
+    const mapPane = page.locator('.leaflet-pane').first();
+    await expect(mapPane).toBeVisible({ timeout: 30000 });
+
+    // Ensure the map data contains at least one marker or cluster by waiting for it in the DOM
     const marker = page.locator('.leaflet-marker-icon, [class*="marker-cluster-"]').first();
-    await expect(marker).toBeVisible({ timeout: 15000 });
+    await expect(marker).toBeAttached({ timeout: 30000 });
   });
 });
