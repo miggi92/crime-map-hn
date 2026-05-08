@@ -9,6 +9,7 @@ export default defineEventHandler(async (event) => {
   try {
     const { channel, channelCategory } = await fetchNewsChannel()
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const items: NewsItem[] = await Promise.all((channel.item || []).map((item: any) => buildNewsItem(item, channelCategory, {
       includeFullArticle,
       includeArticleCategories,

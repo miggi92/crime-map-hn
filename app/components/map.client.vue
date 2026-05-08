@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="w-full h-full min-h-[400px]">
         <LMap :zoom="zoom" :max-zoom="15" :center="[49.1417, 9.2222]" :use-global-leaflet="true" @ready="onMapReady">
