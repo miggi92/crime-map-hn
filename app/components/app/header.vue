@@ -37,6 +37,12 @@ const items = computed<NavigationMenuItem[]>(() => [
     to: '/news',
     icon: 'i-lucide:newspaper',
     active: route.path.startsWith('/news'),
+  },
+  {
+    label: 'Statistics',
+    to: '/stats',
+    icon: 'i-lucide:bar-chart-2',
+    active: route.path.startsWith('/stats'),
   }])
 
 </script>
