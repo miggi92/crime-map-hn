@@ -12,11 +12,26 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
+  colorMode: {
+    preference: 'dark',
+    fallback: 'dark'
+  },
   modules: [
     '@nuxt/eslint',
     '@nuxt/ui',
     '@nuxt/content',
     '@nuxthub/core',
     '@nuxt/test-utils/module'
-  ]
+  ],
+  hub: {
+    database: true
+  },
+  nitro: {
+    experimental: {
+      tasks: true
+    },
+    scheduledTasks: {
+      '0 0 * * *': ['fetch-historical-news']
+    }
+  }
 })
