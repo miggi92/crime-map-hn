@@ -24,7 +24,10 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module'
   ],
   hub: {
-    db: 'sqlite',
+    db: {
+      dialect: 'sqlite',
+      driver: 'd1-http'
+    },
   },
   nitro: {
     experimental: {
