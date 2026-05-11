@@ -1,4 +1,5 @@
 import { fetchNewsChannel, buildNewsItem } from '../utils/presseportal-news'
+import { tables, useDB } from '@nuxthub/db'
 
 export default defineTask({
   meta: {
@@ -7,7 +8,7 @@ export default defineTask({
   },
   async run() {
     console.log('Running fetch-historical-news task...')
-    const db = typeof hubDatabase === 'function' ? hubDatabase() : undefined
+    const db = useDB()
     if (!db) return { result: 'Database not available.' }
 
     try {
@@ -30,15 +31,23 @@ export default defineTask({
         // Extract a primary location
         const location = item.articleCategories?.places?.[0] || ''
 
-        // Insert or update into the D1 database
-        await db.prepare(`
-          INSERT INTO historical_incidents (guid, date, topic, location)
-          VALUES (?1, ?2, ?3, ?4)
-          ON CONFLICT(guid) DO UPDATE SET
-            date=excluded.date,
-            topic=excluded.topic,
-            location=excluded.location
-        `).bind(guid, date, topic, location).run()
+        // Insert or update into the D1 database using Drizzle
+        await db
+          .insert(tables.historicalIncidents)
+          .values({
+            guid,
+            date,
+            topic,
+            location
+          })
+          .onConflictDoUpdate({
+            target: tables.historicalIncidents.guid,
+            set: {
+              date,
+              topic,
+              location
+            }
+          })
       }
 
       return { result: `Successfully processed and stored ${rawItems.length} news items.` }
