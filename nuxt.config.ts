@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module'
   ],
   hub: {
-    database: true
+    db: 'sqlite',
   },
   nitro: {
     experimental: {
