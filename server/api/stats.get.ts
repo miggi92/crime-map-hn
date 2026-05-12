@@ -1,41 +1,52 @@
+import { tables, useDB } from '@nuxthub/db'
+import { desc, sql } from 'drizzle-orm'
+
 export default defineEventHandler(async (_event) => {
   try {
-    // We check if hubDatabase exists globally (provided by the NuxtHub core module at runtime)
-    const db = typeof hubDatabase === 'function' ? hubDatabase() : undefined
+    const db = useDB()
+
+    // Fallback if useDB is not available (shouldn't happen with NuxtHub 0.10)
     if (!db) {
        return { total: 0, topTopics: [], topLocations: [] }
     }
-    const { results: topTopics } = await db.prepare(`
-      SELECT topic, COUNT(*) as count
-      FROM historical_incidents
-      GROUP BY topic
-      ORDER BY count DESC
-      LIMIT 10
-    `).all()
 
-    const { results: topLocations } = await db.prepare(`
-      SELECT location, COUNT(*) as count
-      FROM historical_incidents
-      WHERE location != ''
-      GROUP BY location
-      ORDER BY count DESC
-      LIMIT 10
-    `).all()
+    const topTopics = await db
+      .select({
+        topic: tables.historicalIncidents.topic,
+        count: sql<number>`count(*)`
+      })
+      .from(tables.historicalIncidents)
+      .groupBy(tables.historicalIncidents.topic)
+      .orderBy(desc(sql<number>`count(*)`))
+      .limit(10)
 
-    const { results: totalIncidents } = await db.prepare(`
-      SELECT COUNT(*) as count FROM historical_incidents
-    `).all()
+    const topLocations = await db
+      .select({
+        location: tables.historicalIncidents.location,
+        count: sql<number>`count(*)`
+      })
+      .from(tables.historicalIncidents)
+      .where(sql`${tables.historicalIncidents.location} != ''`)
+      .groupBy(tables.historicalIncidents.location)
+      .orderBy(desc(sql<number>`count(*)`))
+      .limit(10)
+
+    const totalResult = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(tables.historicalIncidents)
 
     return {
-      total: totalIncidents[0]?.count || 0,
+      total: totalResult[0]?.count || 0,
       topTopics,
       topLocations
     }
   } catch (error) {
     console.error('Error fetching stats:', error)
+    // sanitize error for client side
     throw createError({
       statusCode: 500,
       statusMessage: 'Error fetching statistics',
+      data: undefined
     })
   }
 })
