@@ -1,11 +1,9 @@
-import { tables, useDB } from '@nuxthub/db'
+import { db, schema as tables } from '@nuxthub/db'
 import { desc, sql } from 'drizzle-orm'
 
 export default defineEventHandler(async (_event) => {
   try {
-    const db = useDB()
-
-    // Fallback if useDB is not available (shouldn't happen with NuxtHub 0.10)
+    // Fallback if db is not available (shouldn't happen)
     if (!db) {
        return { total: 0, topTopics: [], topLocations: [] }
     }
