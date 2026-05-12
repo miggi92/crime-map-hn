@@ -1,5 +1,5 @@
 import { fetchNewsChannel, buildNewsItem } from '../utils/presseportal-news'
-import { tables, useDB } from '@nuxthub/db'
+import { db, schema as tables } from '@nuxthub/db'
 
 export default defineTask({
   meta: {
@@ -8,7 +8,6 @@ export default defineTask({
   },
   async run() {
     console.log('Running fetch-historical-news task...')
-    const db = useDB()
     if (!db) return { result: 'Database not available.' }
 
     try {
