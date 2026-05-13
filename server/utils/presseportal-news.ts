@@ -184,15 +184,25 @@ function decodeHtmlEntities(text: string): string {
         '&hellip;': '...',
     }
 
-    let decoded = text
-        .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(Number(dec)))
-        .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+    return text.replace(/&(?:#\d+|#x[0-9a-fA-F]+|[a-zA-Z0-9]+);/gi, (match) => {
+        const lowerMatch = match.toLowerCase()
+        if (namedEntities[match]) {
+            return namedEntities[match]
+        }
+        if (namedEntities[lowerMatch]) {
+            return namedEntities[lowerMatch]
+        }
 
-    for (const [entity, replacement] of Object.entries(namedEntities)) {
-        decoded = decoded.split(entity).join(replacement)
-    }
+        if (lowerMatch.startsWith('&#x')) {
+            return String.fromCodePoint(parseInt(match.slice(3, -1), 16))
+        }
 
-    return decoded
+        if (match.startsWith('&#')) {
+            return String.fromCodePoint(Number(match.slice(2, -1)))
+        }
+
+        return match
+    })
 }
 
 function extractTagLabelsFromSection(html: string, sectionTitle: string): string[] {
