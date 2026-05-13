@@ -31,7 +31,7 @@
                   <UIcon name="i-lucide:pie-chart" class="w-5 h-5" /> Top Themen
                 </h3>
               </template>
-              <UTable :rows="stats.topTopics" :columns="topicColumns" />
+              <UTable :data="stats.topTopics" :columns="topicColumns" />
             </UCard>
 
             <UCard>
@@ -40,7 +40,7 @@
                   <UIcon name="i-lucide:map-pin" class="w-5 h-5" /> Top Orte
                 </h3>
               </template>
-              <UTable :rows="stats.topLocations" :columns="locationColumns" />
+              <UTable :data="stats.topLocations" :columns="locationColumns" />
             </UCard>
           </div>
         </div>
