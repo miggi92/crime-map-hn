@@ -121,15 +121,6 @@ const article = computed<NewsItem | null>(() => {
   return (data.value as NewsItem) || null
 })
 
-function escapeHtml(value: string): string {
-  return value
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;')
-}
-
 const articleHtml = computed(() => {
   const raw = article.value?.content || ''
   if (!raw) {
