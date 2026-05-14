@@ -38,6 +38,7 @@
   "devDependencies": {
     "@nuxt/test-utils": "^4.0.3",
     "@nuxthub/core": "0.10.7",
+    "@nuxtjs/color-mode": "^4.0.0",
     "@playwright/test": "^1.59.1",
     "@types/leaflet": "^1.9.21",
     "@vitest/coverage-v8": "^4.1.5",

@@ -16,6 +16,21 @@ export default defineNuxtConfig({
     preference: 'dark',
     fallback: 'dark'
   },
+  ui: {
+    theme: {
+      colors: [
+        'primary',
+        'secondary',
+        'tertiary',
+        'info',
+        'success',
+        'warning',
+        'error',
+        'brand',
+        'darkblue'
+      ]
+    }
+  },
   modules: [
     '@nuxt/eslint',
     '@nuxt/ui',
