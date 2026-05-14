@@ -5,9 +5,12 @@ title="Crime map Heilbronn"
       description="Verfolge aktuelle Polizeimeldungen auf einer interaktiven Karte, erkenne lokale Schwerpunkte und springe direkt in die zugehörigen Details."
       :links="heroLinks">
       <template #headline>
-        <UBadge color="primary" variant="soft" size="lg">
-          Live-Überblick für Heilbronn & Umgebung
-        </UBadge>
+        <div class="flex flex-col items-center gap-6 mb-4">
+          <img src="/logo.svg" alt="Crime Map Heilbronn Logo" class="h-24 w-auto text-primary" >
+          <UBadge color="primary" variant="soft" size="lg">
+            Live-Überblick für Heilbronn & Umgebung
+          </UBadge>
+        </div>
       </template>
     </UPageHero>
 

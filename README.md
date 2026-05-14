@@ -1,5 +1,6 @@
 <div align="center">
   <h1>Crime Map Heilbronn 🗺️🚨</h1>
+  <img src="public/logo.svg" alt="Crime Map Heilbronn Logo" width="200" style="margin-bottom: 20px;">
   <p>Eine interaktive Karte für die Stadt und den Landkreis Heilbronn, welche die Kriminalstatistiken und Vorfälle basierend auf aktuellen Polizei-Pressemitteilungen visualisiert.</p>
 
   <!-- Badges -->
