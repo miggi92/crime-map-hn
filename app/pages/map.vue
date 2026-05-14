@@ -107,15 +107,6 @@ function extractArticleId(item: NewsItem): string {
   return String(item.guid || item.link || '').match(/(\d+)$/)?.[1] || ''
 }
 
-function escapeHtml(value: string): string {
-  return value
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;')
-}
-
 function buildPopupHtml(place: string, articles: MarkerArticle[]): string {
   const articleList = articles
     .map((article) => {
