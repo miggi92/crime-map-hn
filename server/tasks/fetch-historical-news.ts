@@ -6,9 +6,21 @@ export default defineTask({
     name: 'fetch-historical-news',
     description: 'Fetches RSS news and stores aggregated long-term data in D1 database',
   },
-  async run() {
+  async run({ context }) {
     console.log('Running fetch-historical-news task...')
-    if (!db) return { result: 'Database not available.' }
+    let _db = db;
+    // Fallback for cloudflare production where the binding is in the event context
+    if (context?.cloudflare?.env?.DB) {
+       const { drizzle } = await import('drizzle-orm/d1')
+       _db = drizzle(context.cloudflare.env.DB) as unknown as typeof db
+    } else if (globalThis.DB) {
+       const { drizzle } = await import('drizzle-orm/d1')
+       _db = drizzle(globalThis.DB) as unknown as typeof db
+    } else if (globalThis.__env__?.DB) {
+       const { drizzle } = await import('drizzle-orm/d1')
+       _db = drizzle(globalThis.__env__.DB) as unknown as typeof db
+    }
+    if (!_db) return { result: 'Database not available.' }
 
     try {
       const { channel, channelCategory } = await fetchNewsChannel()
@@ -31,7 +43,7 @@ export default defineTask({
         const location = item.articleCategories?.places?.[0] || ''
 
         // Insert or update into the D1 database using Drizzle
-        await db
+        await _db
           .insert(tables.historicalIncidents)
           .values({
             guid,
