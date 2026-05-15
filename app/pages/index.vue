@@ -6,7 +6,7 @@ title="Crime map Heilbronn"
       :links="heroLinks">
       <template #headline>
         <div class="flex flex-col items-center gap-6 mb-4">
-          <img src="/logo.svg" alt="Crime Map Heilbronn Logo" class="h-24 w-auto text-primary" >
+          <NuxtImg src="/logo.svg" alt="Crime Map Heilbronn Logo" class="h-24 w-auto text-primary" />
           <UBadge color="primary" variant="soft" size="lg">
             Live-Überblick für Heilbronn & Umgebung
           </UBadge>
