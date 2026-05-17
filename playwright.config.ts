@@ -39,7 +39,7 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: 'npx nuxi build && npx nuxi preview',
+    command: 'NODE_OPTIONS="--max-old-space-size=4096" npx nuxi build && npx nuxi preview',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
     timeout: 240 * 1000,
