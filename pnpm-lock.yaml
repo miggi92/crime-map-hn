@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@iconify-json/lucide':
         specifier: ^1.2.108
-        version: 1.2.108
+        version: 1.2.109
       '@iconify-json/simple-icons':
         specifier: ^1.2.83
         version: 1.2.83
@@ -1018,8 +1018,8 @@ packages:
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
 
-  '@iconify-json/lucide@1.2.108':
-    resolution: {integrity: sha512-jnmMx7xxShfsKeNNJhn47IKj3gD/AbRz+poKLIPn4rSIXw+yVbXCfUBXza/Jo9YIEEFajBk6Zayet8DqGCvX6w==}
+  '@iconify-json/lucide@1.2.109':
+    resolution: {integrity: sha512-O5arvTVcu95soP3dGWJp/Nl5L5FYmFu2z75sSrQmGzrgrnsCU49t8+ZB7HPq//GRNXpWUoNfDRcs5yR7XMa+zw==}
 
   '@iconify-json/simple-icons@1.2.83':
     resolution: {integrity: sha512-6Pp9V++XisT9RKH7FB4RLPqUDzcmLtSma0ovOEIoEWGrXtHwBFsH7oN1z8vvCVCb95fb87QgR46/zRLyN9Y3kg==}
@@ -6245,6 +6245,11 @@ packages:
     engines: {node: '>=20.16.0'}
     hasBin: true
 
+  srvx@0.11.16:
+    resolution: {integrity: sha512-bp07zRuycfTY43IjAvvTFnmnJi8ikW0VFiHwOhhYcVW/L4xQ1XY4PAd4Nuum1rsA17C39zL7x+CDhrn5AL32Rw==}
+    engines: {node: '>=20.16.0'}
+    hasBin: true
+
   stable-hash-x@0.2.0:
     resolution: {integrity: sha512-o3yWv49B/o4QZk5ZcsALc6t0+eCelPc44zZsLtCQnZPDwFpDYSWcDnrv2TtMmMbQ7uKo3J0HTURCqckw23czNQ==}
     engines: {node: '>=12.0.0'}
@@ -7836,7 +7841,7 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.3': {}
 
-  '@iconify-json/lucide@1.2.108':
+  '@iconify-json/lucide@1.2.109':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -11629,7 +11634,7 @@ snapshots:
   h3@2.0.1-rc.20(crossws@0.4.5(srvx@0.11.15)):
     dependencies:
       rou3: 0.8.1
-      srvx: 0.11.15
+      srvx: 0.11.16
     optionalDependencies:
       crossws: 0.4.5(srvx@0.11.15)
 
@@ -13996,6 +14001,8 @@ snapshots:
   spdx-license-ids@3.0.23: {}
 
   srvx@0.11.15: {}
+
+  srvx@0.11.16: {}
 
   stable-hash-x@0.2.0: {}
 
