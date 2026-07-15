@@ -50,6 +50,13 @@ export default defineNuxtConfig({
     experimental: {
       tasks: true
     },
+    cloudflare: {
+      wrangler: {
+        triggers: {
+          crons: ['0 0 * * *']
+        }
+      }
+    },
     scheduledTasks: {
       '0 0 * * *': ['fetch-historical-news']
     }
