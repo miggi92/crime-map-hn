@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
        return { total: 0, topTopics: [], topLocations: [] }
     }
 
-    const topTopics = await _db
+    const topTopicsPromise = _db
       .select({
         topic: tables.historicalIncidents.topic,
         count: sql<number>`count(*)`
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
       .orderBy(desc(sql<number>`count(*)`))
       .limit(10)
 
-    const topLocations = await _db
+    const topLocationsPromise = _db
       .select({
         location: tables.historicalIncidents.location,
         count: sql<number>`count(*)`
@@ -43,12 +43,39 @@ export default defineEventHandler(async (event) => {
       .orderBy(desc(sql<number>`count(*)`))
       .limit(10)
 
-    const totalResult = await _db
+    const totalResultPromise = _db
       .select({ count: sql<number>`count(*)` })
       .from(tables.historicalIncidents)
 
+    const [topTopicsSettled, topLocationsSettled, totalResultSettled] = await Promise.allSettled([
+      topTopicsPromise,
+      topLocationsPromise,
+      totalResultPromise
+    ]);
+
+    let topTopics = [];
+    if (topTopicsSettled.status === 'fulfilled') {
+      topTopics = topTopicsSettled.value;
+    } else {
+      console.error('Error fetching topTopics:', topTopicsSettled.reason);
+    }
+
+    let topLocations = [];
+    if (topLocationsSettled.status === 'fulfilled') {
+      topLocations = topLocationsSettled.value;
+    } else {
+      console.error('Error fetching topLocations:', topLocationsSettled.reason);
+    }
+
+    let total = 0;
+    if (totalResultSettled.status === 'fulfilled') {
+      total = totalResultSettled.value[0]?.count || 0;
+    } else {
+      console.error('Error fetching totalResult:', totalResultSettled.reason);
+    }
+
     return {
-      total: totalResult[0]?.count || 0,
+      total,
       topTopics,
       topLocations
     }
