@@ -3,7 +3,17 @@
     <UPageHero
       title="Crime Statistics"
       description="Langzeitstatistiken basierend auf gesammelten Polizei-Pressemitteilungen."
-    />
+    >
+      <!-- Timeframe Filter -->
+      <div class="mt-8 max-w-xs mx-auto md:mx-0">
+        <USelect
+          v-model="selectedTimeframe"
+          :options="timeframeOptions"
+          label="Zeitraum"
+          class="w-full"
+        />
+      </div>
+    </UPageHero>
 
     <UPageBody>
       <UContainer class="pb-12 sm:pb-16 space-y-8">
@@ -55,12 +65,42 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, computed } from 'vue'
+
 useSeoMeta({
   title: 'Statistiken - Crime Map Heilbronn',
   description: 'Langzeitstatistiken über Kriminalitätsvorfälle und Polizei-Pressemitteilungen in Heilbronn.',
 })
 
-const { data: stats, pending } = useFetch('/api/stats')
+const timeframeOptions = [
+  { label: 'Last 2 Weeks', value: '2weeks' },
+  { label: 'This Year', value: 'year' },
+  { label: 'All Time', value: 'all' }
+]
+
+const selectedTimeframe = ref('2weeks')
+
+const dateRange = computed(() => {
+  const end = new Date()
+  let start: Date | null = null
+
+  if (selectedTimeframe.value === '2weeks') {
+    start = new Date()
+    start.setDate(end.getDate() - 14)
+  } else if (selectedTimeframe.value === 'year') {
+    start = new Date(end.getFullYear(), 0, 1) // January 1st of current year
+  }
+
+  return {
+    startDate: start ? start.toISOString() : undefined,
+    endDate: end.toISOString()
+  }
+})
+
+// useFetch will automatically refetch when query params change
+const { data: stats, pending } = useFetch('/api/stats', {
+  query: dateRange
+})
 
 const topicColumns = [
   { accessorKey: 'topic', header: 'Thema' },
