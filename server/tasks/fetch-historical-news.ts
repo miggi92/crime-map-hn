@@ -6,21 +6,8 @@ export default defineTask({
     name: 'fetch-historical-news',
     description: 'Fetches RSS news and stores aggregated long-term data in D1 database',
   },
-  async run({ context }) {
+  async run() {
     console.log('Running fetch-historical-news task...')
-    let _db = db;
-    // Fallback for cloudflare production where the binding is in the event context
-    if (context?.cloudflare?.env?.DB) {
-       const { drizzle } = await import('drizzle-orm/d1')
-       _db = drizzle(context.cloudflare.env.DB) as unknown as typeof db
-    } else if (globalThis.DB) {
-       const { drizzle } = await import('drizzle-orm/d1')
-       _db = drizzle(globalThis.DB) as unknown as typeof db
-    } else if (globalThis.__env__?.DB) {
-       const { drizzle } = await import('drizzle-orm/d1')
-       _db = drizzle(globalThis.__env__.DB) as unknown as typeof db
-    }
-    if (!_db) return { result: 'Database not available.' }
 
     try {
       const { channel, channelCategory } = await fetchNewsChannel()
@@ -30,11 +17,17 @@ export default defineTask({
 
       // Process items to get topics and locations
       for (const rawItem of rawItems) {
-        // We include article categories to extract topics and locations
         const item = await buildNewsItem(rawItem, channelCategory, { includeArticleCategories: true })
 
         const guid = item.guid
-        const date = item.date
+        // Parse the date to ISO format for better SQLite sorting and comparison
+        let date = item.date
+        if (date) {
+          const parsedDate = new Date(date)
+          if (!isNaN(parsedDate.getTime())) {
+            date = parsedDate.toISOString()
+          }
+        }
 
         // Extract a primary topic (or fallback to 'Allgemein')
         const topic = item.articleCategories?.topics?.[0] || 'Allgemein'
@@ -43,7 +36,7 @@ export default defineTask({
         const location = item.articleCategories?.places?.[0] || ''
 
         // Insert or update into the D1 database using Drizzle
-        await _db
+        await db
           .insert(tables.historicalIncidents)
           .values({
             guid,
