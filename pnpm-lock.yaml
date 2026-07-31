@@ -13,7 +13,7 @@ importers:
         version: 1.2.120
       '@iconify-json/simple-icons':
         specifier: ^1.2.90
-        version: 1.2.91
+        version: 1.2.92
       '@libsql/client':
         specifier: ^0.17.4
         version: 0.17.4
@@ -1030,8 +1030,8 @@ packages:
   '@iconify-json/lucide@1.2.120':
     resolution: {integrity: sha512-4ECF24fxag1n5tZlPGrbWuCGqhkwD0rvAzfCXretqQb4KEC8Y6ja3khF8qmvpR1Mk0NQDhBTRK3Fr/YoV8QyJw==}
 
-  '@iconify-json/simple-icons@1.2.91':
-    resolution: {integrity: sha512-plQJHZxzpkIXaeYjJF0Sc9nkzYF32EDX9olx7j1hcKYFaiTrQXbcngZmvzuV0pG6uZPU3ZuA/GIsgxSHOm6jrQ==}
+  '@iconify-json/simple-icons@1.2.92':
+    resolution: {integrity: sha512-hR0ozxR97t1dzWw+esoxFijZ15gagt7EIgF3CNifu2yICXhS7gnun4Y+j+odJQtNSl7wvqMdoLbViIShwe/fdw==}
 
   '@iconify/collections@1.0.710':
     resolution: {integrity: sha512-v8Si3U8z1Fpz526gEb5W5LxXMm/Ds6uvdMzcjeugyFLaqcuCsL1xgj1sjggofVXn3P36ZYeI804HRsBrmt5W3g==}
@@ -8197,7 +8197,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/simple-icons@1.2.91':
+  '@iconify-json/simple-icons@1.2.92':
     dependencies:
       '@iconify/types': 2.0.0
 
