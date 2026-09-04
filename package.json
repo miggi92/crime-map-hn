@@ -23,7 +23,7 @@
     "@nuxt/eslint": "1.17.0",
     "@nuxt/ui": "^4.9.0",
     "@vue-leaflet/vue-leaflet": "^0.10.1",
-    "better-sqlite3": "^12.11.1",
+    "better-sqlite3": "^13.0.0",
     "drizzle-kit": "^0.31.10",
     "drizzle-orm": "^0.45.2",
     "eslint": "^10.7.0",
